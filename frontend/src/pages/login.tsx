@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Styles/login.css';
 type LoginInfo = {
     email: string,
@@ -7,6 +7,7 @@ type LoginInfo = {
 }
 export function LoginUserInfo() {
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const [login, SetLogin] = useState<LoginInfo>({
         email: "",
@@ -41,6 +42,9 @@ export function LoginUserInfo() {
                 sessionStorage.setItem("token", data.token);
             }
             console.log(data)
+
+            // token is stored — now move to the tools
+            navigate("/app", { replace: true });
 
         }
         catch (err) {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Styles/signup.css';
 
 type SignUpInfo = {
@@ -11,6 +11,7 @@ type SignUpInfo = {
 
 export function SignUpPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
     const [signup, SetSignUp] = useState<SignUpInfo>({
         name: "",
         email: "",
@@ -49,6 +50,9 @@ export function SignUpPage() {
             }
 
             console.log(data)
+
+            // token is stored — now move to the tools
+            navigate("/app", { replace: true });
         }
         catch(err){
             console.error(`oops.. something went wrong ${err}`);

@@ -33,8 +33,8 @@ SignupRoute.post('/signup', async (req, res) => {
     );
 
         res.status(200).json({
-            message: "Successfully created"
-            // userData: userData  -> to print the userData in browser console
+            message: "Successfully created",
+            token
         });
     }
     catch (err) {
