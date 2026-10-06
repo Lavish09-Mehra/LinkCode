@@ -1,0 +1,357 @@
+/* ============================================
+   LinkCode — Login Page
+   Monochrome grey · note LEFT · form RIGHT
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+    --black:   #242424;
+    --grey-1:  #0D0D0D;
+    --grey-2:  #161515;
+    --grey-3:  #565656;
+    --text:    #EDEDED;
+    --muted:   #B5B5B5;
+    --faint:   #8A8A8A;
+    --radius:  14px;
+    --ease:    cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* butter-smooth deceleration */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--black);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+}
+
+/* ---------- Page shell ---------- */
+.Login_page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+}
+
+/* ---------- Butter-smooth entrance ---------- */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+.header-portion,
+.ex_note,
+.body_LoginPage {
+    animation: fadeSlideUp 0.9s var(--ease-out) both;
+}
+.ex_note        { animation-delay: 0.15s; }
+.body_LoginPage { animation-delay: 0.3s; }
+
+/* ---------- Header ---------- */
+.header-portion { text-align: center; margin-bottom: 42px; }
+
+.h1_LoginPage {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 4.5vw, 2.9rem);
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: var(--text);
+}
+
+.p_LoginPage {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+}
+
+.h4_LoginPage {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+/* thin divider lines flanking the tagline */
+.h4_LoginPage::before,
+.h4_LoginPage::after {
+    content: "";
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--grey-3);
+    vertical-align: middle;
+    margin: 0 14px;
+}
+
+/* ---------- Panels ---------- */
+.ex_note, .body_LoginPage { width: 100%; max-width: 460px; }
+
+/* ---------- Note panel (LEFT on desktop) ---------- */
+.ex_note {
+    background-color: var(--grey-2);
+    border: 1px solid var(--grey-2);
+    border-radius: var(--radius);
+    padding: 48px 42px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s var(--ease-out),
+                box-shadow 0.5s var(--ease-out);
+}
+.ex_note:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+.p_note > strong {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: var(--text);
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--grey-3);
+}
+
+.p_note p {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+.p_note p:last-child { color: var(--faint); margin-bottom: 0; font-size: 0.88rem; }
+.p_note p strong {
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text);
+    letter-spacing: 0.4px;
+}
+
+/* ---------- Login form (RIGHT on desktop) ---------- */
+.body_LoginPage {
+    background-color: var(--grey-1);
+    border: 1px solid var(--grey-2);
+    border-radius: var(--radius);
+    padding: 44px 40px;
+    transition: transform 0.5s var(--ease-out),
+                box-shadow 0.5s var(--ease-out);
+}
+.body_LoginPage:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+.body_LoginPage h3 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 22px 0 8px;
+    transition: color 0.3s var(--ease);
+}
+.body_LoginPage h3:first-child { margin-top: 0; }
+
+/* label lights up when its input is focused */
+.body_LoginPage input:focus + h3,
+.body_LoginPage h3:has(+ input:focus) {
+    color: var(--muted);
+}
+
+.body_LoginPage input {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 0.95rem;
+    color: var(--text);
+    background-color: var(--black);
+    border: 1px solid var(--grey-2);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.35s var(--ease),
+                box-shadow 0.35s var(--ease),
+                transform 0.35s var(--ease-out),
+                background-color 0.35s var(--ease);
+}
+.body_LoginPage input::placeholder {
+    color: var(--grey-3);
+    font-size: 0.9rem;
+    transition: color 0.3s var(--ease);
+}
+.body_LoginPage input:hover { border-color: var(--grey-3); }
+.body_LoginPage input:focus {
+    border-color: var(--muted);
+    box-shadow: 0 0 0 3px rgba(237, 237, 237, 0.07);
+    transform: scale(1.015);           /* subtle lift */
+}
+.body_LoginPage input:focus::placeholder { color: var(--faint); }
+
+/* ---------- Link ---------- */
+.body_LoginPage a {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: var(--faint);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s var(--ease);
+}
+.body_LoginPage a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background-color: var(--text);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-out);
+}
+.body_LoginPage a:hover { color: var(--text); }
+.body_LoginPage a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;            /* underline sweeps in */
+}
+
+/* ---------- Submit button ---------- */
+.sry-btn { margin-top: 28px; }
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--black);
+    background-color: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.35s var(--ease),
+                color 0.35s var(--ease),
+                transform 0.3s var(--ease-out),
+                box-shadow 0.35s var(--ease);
+}
+/* invert on hover — light button goes ghost */
+.btn-login:hover {
+    background-color: transparent;
+    color: var(--text);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+.btn-login:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition-duration: 0.1s;
+}
+
+/* ---------- Desktop: note LEFT, form RIGHT, attached & equal height ---------- */
+@media (min-width: 900px) {
+    .Login_page {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 460px));
+        grid-template-rows: auto auto;
+        justify-content: center;
+        align-content: center;
+        align-items: stretch;      /* equal height */
+        column-gap: 0;
+    }
+
+    .header-portion {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .ex_note {
+        grid-column: 1;            /* LEFT */
+        grid-row: 2;
+        max-width: none;
+        border-radius: var(--radius) 0 0 var(--radius);
+        border-right: none;
+    }
+
+    .body_LoginPage {
+        grid-column: 2;            /* RIGHT */
+        grid-row: 2;
+        max-width: none;
+        border-radius: 0 var(--radius) var(--radius) 0;
+    }
+}
+
+
+
+/* ---------- Password field with eye toggle ---------- */
+.pass-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.pass-wrapper input {
+    width: 100%;
+    padding-right: 46px;   /* room for the icon */
+}
+
+.eye-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--grey-3);
+    transition: color 0.3s var(--ease),
+                transform 0.3s var(--ease-out);
+}
+
+.eye-btn:hover {
+    color: var(--text);
+    transform: translateY(-50%) scale(1.12);
+}
+
+.eye-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.eye-btn svg {
+    display: block;
+    transition: opacity 0.25s var(--ease);
+}
+
+
+
+
+/* ---------- Tablet / mobile fallback ---------- */
+@media (max-width: 899px) {
+    .ex_note, .body_LoginPage { max-width: 520px; }
+    .body_LoginPage { margin-bottom: 24px; order: 1; }  /* form first on mobile */
+    .ex_note { order: 2; }
+}
+
+/* ---------- Respect reduced-motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}

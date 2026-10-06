@@ -1,0 +1,133 @@
+# ============================================================
+#  LinkCode — single global .gitignore
+#
+#  One file for the whole project, so coverage can't drift
+#  between frontend/, backend/ and backend/python_backend/.
+#  (Replaces the old frontend/.gitignore, whose rules are all
+#  carried over below.)
+# ============================================================
+
+
+# ------------------------------------------------------------
+#  Dependencies
+# ------------------------------------------------------------
+node_modules/
+.venv/
+venv/
+env/
+ENV/
+.pnp
+.pnp.js
+
+
+# ------------------------------------------------------------
+#  Build output
+# ------------------------------------------------------------
+dist/
+dist-ssr/
+build/
+out/
+*.tsbuildinfo
+
+
+# ------------------------------------------------------------
+#  Python
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-wheel-metadata/
+develop-eggs/
+eggs/
+.wheels/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+
+# ------------------------------------------------------------
+#  Databases & runtime data
+# ------------------------------------------------------------
+# links.db is the shortener's SQLite store, created next to
+# server.py. It is generated data, so it is not committed —
+# but deleting it also deletes every short link you have made.
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+
+# ------------------------------------------------------------
+#  Secrets & environment files
+# ------------------------------------------------------------
+# backend/.env holds MONGO_URL and JWT_SECRET — never commit it.
+.env
+.env.*
+!.env.example
+*.local
+
+
+# ------------------------------------------------------------
+#  Logs
+# ------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+pnpm-debug.yaml
+
+
+# ------------------------------------------------------------
+#  Editors & IDEs
+# ------------------------------------------------------------
+# .vscode/ is deliberately NOT ignored: settings.json here is a
+# shared project setting (Python env manager), not personal state.
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swn
+*.swo
+*~
+.vs/
+.vscode/*.log
+
+
+# ------------------------------------------------------------
+#  Operating systems
+# ------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+
+# ------------------------------------------------------------
+#  Local scratch / test harnesses
+# ------------------------------------------------------------
+# Throwaway verification scripts created while working on a
+# feature — they are run once and deleted, never committed.
+.ssr-check.mjs
+.dbg.mjs
+.gating-check.mjs
+.scratch/
+*.ssr-check.mjs

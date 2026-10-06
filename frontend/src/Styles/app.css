@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+    --black:   #242424;
+    --grey-1:  #969696;
+    --grey-2:  #3B3B3B;
+    --grey-3:  #565656;
+    --text:    #EDEDED;
+    --muted:   #B5B5B5;
+    --faint:   #8A8A8A;
+    --radius:  14px;
+    --ease:    cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--black);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* ---------- Page shell ---------- */
+.main-app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 64px 20px;
+}
+
+/* ---------- Header ---------- */
+.headers {
+    width: 100%;
+    max-width: 860px;
+    text-align: center;
+}
+
+.h1-headers {
+    font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    font-size: clamp(2rem, 6vw, 4.2rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+.p-headers {
+    margin-top: 14px;
+    font-size: 0.98rem;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+}
+
+/* ---------- Tool switch buttons ---------- */
+.switches-headers {
+    margin-top: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.switches-headers button {
+    padding: 11px 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background-color: var(--grey-2);
+    border: 1px solid var(--grey-3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease),
+                color 0.3s var(--ease),
+                border-color 0.3s var(--ease),
+                transform 0.25s var(--ease);
+}
+.switches-headers button:hover {
+    color: var(--text);
+    border-color: var(--grey-1);
+    transform: translateY(-2px);
+}
+.switches-headers button:active { transform: translateY(0); }
+.switches-headers button.active {
+    color: var(--black);
+    background-color: var(--text);
+    border-color: var(--text);
+}
+
+/* ---------- URL input ---------- */
+.Input-box {
+    margin-top: 28px;
+    display: flex;
+    gap: 0;
+    width: 100%;
+}
+
+.inp-main {
+    flex: 1;
+    min-width: 0;
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: var(--text);
+    background-color: var(--grey-2);
+    border: 1px solid var(--grey-3);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    outline: none;
+    transition: border-color 0.3s var(--ease),
+                box-shadow 0.3s var(--ease);
+}
+.inp-main::placeholder { color: var(--faint); }
+.inp-main:hover { border-color: var(--grey-1); }
+.inp-main:focus {
+    border-color: var(--muted);
+    box-shadow: 0 0 0 3px rgba(237, 237, 237, 0.07);
+}
+
+.btn-submit {
+    padding: 0 26px;
+    font-size: 1.3rem;
+    color: var(--black);
+    background-color: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease),
+                color 0.3s var(--ease);
+}
+.btn-submit:hover {
+    background-color: transparent;
+    color: var(--text);
+}
+
+/* a link is typed but ⏎ hasn't been pressed yet, so nothing has reached the
+   tools — the ring marks the button as the thing that makes it happen */
+.btn-submit.is-pending {
+    box-shadow: 0 0 0 3px rgba(237, 237, 237, 0.16);
+}
+.btn-submit.is-pending:hover {
+    box-shadow: 0 0 0 3px rgba(237, 237, 237, 0.3);
+}
+
+/* ---------- tool output + loader beat ---------- */
+/* the BanterLoader draws white boxes, so it needs a dark panel under it,
+   and .banter-loader is absolutely positioned — the wrapper is its anchor */
+.tool-output {
+    position: relative;
+    width: 100%;
+}
+
+.tool-output.is-loading {
+    min-height: clamp(200px, 42vw, 340px);
+    background-color: var(--grey-2);
+    border: 1px solid var(--grey-3);
+    border-radius: 10px;
+}
+
+/* ---------- Body panel ---------- */
+.main-inputBody {
+    width: 100%;
+    max-width: 860px;
+    margin-top: 48px;
+    background-color: var(--grey-2);
+    border: 1px solid var(--grey-3);
+    border-radius: var(--radius);
+    padding: 40px;
+}
+
+/* inner wrapper: the tool output area, no second box */
+.main-inputBody .main-inputBody {
+    margin-top: 28px;
+    padding: 24px;
+    background-color: var(--black);
+    border: 1px solid var(--grey-3);
+    border-radius: 10px;
+}
+
+.p-inst {
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--muted);
+}
+
+.app-titleName {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: var(--text);
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--grey-3);
+}
+
+.main-inputBody .main-inputBody h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 600px) {
+    .main-app { padding: 40px 16px; }
+    .main-inputBody { padding: 26px 20px; }
+    .btn-submit { padding: 0 18px; }
+}

@@ -1,0 +1,320 @@
+/* ============================================================
+   LinkCode — Custom Link Generator
+   Tool output. Rendered inside .main-inputBody .main-inputBody,
+   so it only appears when that tool is selected.
+
+   Structured to match image_componenet.css / qr_component.css /
+   short_component.css — same tokens, same parts, same motion.
+   The frame holds the built snippet, so it grows with the text
+   instead of taking a fixed crop, and there is no skeleton: this
+   tool does no loading, so faking one would be a lie.
+   ============================================================ */
+
+.Custom_body {
+    /* local ease token — this component does not depend on another
+       page's :root having defined --ease-out */
+    --img-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    display: grid;
+    gap: 22px;
+    animation: Custom-enter 0.5s var(--img-ease-out) both;
+}
+
+/* one entrance, because selecting a tool is an action that changed
+   what is on screen — not a decorative scroll reveal */
+@keyframes Custom-enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------ head ------------------------------ */
+.Custom_head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--grey-3, #565656);
+}
+
+.Custom_title {
+    margin: 0;
+    font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    font-size: clamp(1.4rem, 3vw, 1.95rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text, #EDEDED);
+}
+
+/* state chip — carries real status, not decoration */
+.Custom_state {
+    margin-left: auto;
+    padding: 4px 11px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint, #8A8A8A);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 999px;
+    transition: color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                border-color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Custom_body.is-ready .Custom_state {
+    color: var(--text, #EDEDED);
+    border-color: var(--muted, #B5B5B5);
+}
+
+/* ------------------------------ empty ----------------------------- */
+.Custom_empty {
+    padding: clamp(26px, 5vw, 44px) clamp(18px, 4vw, 32px);
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.18);
+    border: 1px dashed var(--grey-3, #565656);
+    border-radius: 10px;
+}
+
+.Custom_empty-lead {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--text, #EDEDED);
+}
+
+.Custom_empty-note {
+    margin: 10px 0 0;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--faint, #8A8A8A);
+}
+
+/* ------------------------------ layout ---------------------------- */
+.Custom_layout {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 34px);
+    align-items: start;
+}
+
+/* ----------------------------- result ----------------------------- */
+.Custom_frame {
+    position: relative;
+    margin: 0;
+    min-height: clamp(170px, 34vw, 230px);
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 16px;
+    padding: 20px;
+    overflow: hidden;
+    background-color: var(--grey-2, #3B3B3B);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 10px;
+    transition: border-color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Custom_frame:hover { border-color: var(--muted, #B5B5B5); }
+
+/* what the finished link looks like once it is pasted in */
+.Custom_preview {
+    font-size: clamp(1.05rem, 3vw, 1.35rem);
+    line-height: 1.4;
+    text-align: center;
+    color: var(--text, #EDEDED);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    overflow-wrap: anywhere;
+    transition: color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Custom_preview:hover { color: var(--muted, #B5B5B5); }
+
+.Custom_preview.is-idle {
+    color: var(--faint, #8A8A8A);
+    text-decoration-style: dotted;
+    cursor: default;
+}
+
+/* the artifact — one click takes the whole snippet */
+.Custom_code {
+    max-width: 100%;
+    padding: 10px 13px;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                 "Liberation Mono", monospace;
+    font-size: 0.76rem;
+    line-height: 1.75;
+    color: var(--muted, #B5B5B5);
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 8px;
+    text-align: center;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    user-select: all;
+    transition: border-color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Custom_frame:hover .Custom_code {
+    color: var(--text, #EDEDED);
+    border-color: var(--muted, #B5B5B5);
+}
+
+.Custom_hint {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--faint, #8A8A8A);
+}
+
+/* ------------------------------- meta ----------------------------- */
+.Custom_meta { min-width: 0; }
+
+.Custom_label,
+.Custom_sublabel {
+    margin: 0 0 8px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--faint, #8A8A8A);
+}
+
+.Custom_sublabel { margin-top: 20px; }
+
+/* same control as .inp-main in app.css, so the second input inside the
+   panel reads as part of the same app rather than a bolted-on field */
+.Custom_input {
+    width: 100%;
+    padding: 13px 16px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text, #EDEDED);
+    background-color: var(--grey-2, #3B3B3B);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                box-shadow 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Custom_input::placeholder { color: var(--faint, #8A8A8A); }
+.Custom_input:hover { border-color: var(--grey-1, #B5B5B5); }
+
+.Custom_input:focus {
+    border-color: var(--muted, #B5B5B5);
+    box-shadow: 0 0 0 3px rgba(237, 237, 237, 0.07);
+}
+
+.Custom_source {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: var(--text, #EDEDED);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.Custom_specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.Custom_specs li {
+    padding: 4px 11px;
+    font-size: 0.78rem;
+    letter-spacing: 0.3px;
+    color: var(--muted, #B5B5B5);
+    background-color: var(--grey-2, #3B3B3B);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 999px;
+}
+
+/* ------------------------------ copy ------------------------------ */
+/* same rules as .btn_copy in short_component.css and .btn_download in
+   image_componenet.css — keep them in sync so the tools never drift */
+.btn_copy {
+    margin-top: 22px;
+    padding: 13px 26px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--black, #242424);
+    background-color: var(--text, #EDEDED);
+    border: 1px solid var(--text, #EDEDED);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                transform 0.3s var(--img-ease-out),
+                box-shadow 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.btn_copy:hover:not(:disabled) {
+    background-color: transparent;
+    color: var(--text, #EDEDED);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.btn_copy:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+.btn_copy:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* ------------------------------ message --------------------------- */
+.Custom_note {
+    margin: 16px 0 0;
+    font-size: 0.86rem;
+    line-height: 1.65;
+}
+
+.Custom_note.is-ok { color: var(--muted, #B5B5B5); }
+.Custom_note.is-bad { color: var(--text, #EDEDED); }
+
+/* a hairline under an error, so it reads as a notice rather than body copy */
+.Custom_note.is-bad {
+    padding-left: 13px;
+    border-left: 2px solid var(--muted, #B5B5B5);
+}
+
+/* ------------------------------ focus ----------------------------- */
+.Custom_body :focus-visible {
+    outline: 2px solid var(--text, #EDEDED);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* ---------------------------- responsive -------------------------- */
+@media (max-width: 640px) {
+    .Custom_layout { grid-template-columns: 1fr; }
+    .Custom_frame { max-width: 340px; }
+    .Custom_state { margin-left: 0; }
+    .btn_copy { width: 100%; }
+}
+
+/* -------------------------- reduced motion ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .Custom_body *,
+    .Custom_body *::before,
+    .Custom_body *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}

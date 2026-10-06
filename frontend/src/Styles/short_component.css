@@ -1,0 +1,305 @@
+/* ============================================================
+   LinkCode — Link Shortener
+   Tool output. Rendered inside .main-inputBody .main-inputBody,
+   so it only appears when that tool is selected.
+
+   Structured to match image_componenet.css / qr_component.css —
+   same tokens, same parts, same motion. The frame holds the code
+   instead of a picture, so it takes padding rather than a bleed.
+   ============================================================ */
+
+.Short_body {
+    /* local ease token — this component does not depend on another
+       page's :root having defined --ease-out */
+    --img-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    display: grid;
+    gap: 22px;
+    animation: Short-enter 0.5s var(--img-ease-out) both;
+}
+
+/* one entrance, because selecting a tool is an action that changed
+   what is on screen — not a decorative scroll reveal */
+@keyframes Short-enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------ head ------------------------------ */
+.Short_head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--grey-3, #565656);
+}
+
+.Short_title {
+    margin: 0;
+    font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    font-size: clamp(1.4rem, 3vw, 1.95rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text, #EDEDED);
+}
+
+/* state chip — carries real status, not decoration */
+.Short_state {
+    margin-left: auto;
+    padding: 4px 11px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint, #8A8A8A);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 999px;
+    transition: color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                border-color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Short_body.is-busy .Short_state {
+    color: var(--text, #EDEDED);
+    border-color: var(--muted, #B5B5B5);
+}
+
+/* ------------------------------ empty ----------------------------- */
+.Short_empty {
+    padding: clamp(26px, 5vw, 44px) clamp(18px, 4vw, 32px);
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.18);
+    border: 1px dashed var(--grey-3, #565656);
+    border-radius: 10px;
+}
+
+.Short_empty-lead {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--text, #EDEDED);
+}
+
+.Short_empty-note {
+    margin: 10px 0 0;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--faint, #8A8A8A);
+}
+
+/* ------------------------------ layout ---------------------------- */
+.Short_layout {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 34px);
+    align-items: start;
+}
+
+/* ----------------------------- result ----------------------------- */
+/* same box as the image frame — the code is the artifact this tool
+   produces, so it occupies the same slot */
+.Short_frame {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 14px;
+    padding: 18px;
+    overflow: hidden;
+    background-color: var(--grey-2, #3B3B3B);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 10px;
+    transition: border-color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Short_frame:hover { border-color: var(--muted, #B5B5B5); }
+
+/* the 10 digits — the thing you actually came for */
+.Short_code {
+    font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    font-size: clamp(2.1rem, 7vw, 2.9rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-indent: 0.12em;   /* keeps the run optically centred */
+    color: var(--text, #EDEDED);
+    user-select: all;      /* one click picks up the whole code */
+}
+
+.Short_link {
+    max-width: 100%;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: var(--faint, #8A8A8A);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    transition: color 0.3s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.Short_frame:hover .Short_link { color: var(--muted, #B5B5B5); }
+
+/* it resolves now, so it is a real link — same grey until hovered */
+.Short_link a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.Short_link a:hover {
+    color: var(--muted, #B5B5B5);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.Short_skeleton {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            100deg,
+            transparent 30%,
+            rgba(237, 237, 237, 0.07) 50%,
+            transparent 70%
+        );
+    background-size: 220% 100%;
+    animation: Short-sheen 1.4s linear infinite;
+}
+
+@keyframes Short-sheen {
+    from { background-position: 140% 0; }
+    to   { background-position: -40% 0; }
+}
+
+.Short_broken {
+    padding: 0 6px;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--faint, #8A8A8A);
+}
+
+/* ------------------------------- meta ----------------------------- */
+.Short_meta { min-width: 0; }
+
+.Short_label {
+    margin: 0 0 8px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--faint, #8A8A8A);
+}
+
+.Short_source {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: var(--text, #EDEDED);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.Short_specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.Short_specs li {
+    padding: 4px 11px;
+    font-size: 0.78rem;
+    letter-spacing: 0.3px;
+    color: var(--muted, #B5B5B5);
+    background-color: var(--grey-2, #3B3B3B);
+    border: 1px solid var(--grey-3, #565656);
+    border-radius: 999px;
+}
+
+/* ------------------------------ copy ------------------------------ */
+/* same inversion as .btn_download in image_componenet.css and
+   .btn-submit in app.css, so the app reads as one system */
+.btn_copy {
+    margin-top: 22px;
+    padding: 13px 26px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--black, #242424);
+    background-color: var(--text, #EDEDED);
+    border: 1px solid var(--text, #EDEDED);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                color 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+                transform 0.3s var(--img-ease-out),
+                box-shadow 0.35s var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.btn_copy:hover:not(:disabled) {
+    background-color: transparent;
+    color: var(--text, #EDEDED);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.btn_copy:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+.btn_copy:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* ------------------------------ message --------------------------- */
+.Short_note {
+    margin: 16px 0 0;
+    font-size: 0.86rem;
+    line-height: 1.65;
+}
+
+.Short_note.is-ok { color: var(--muted, #B5B5B5); }
+.Short_note.is-bad { color: var(--text, #EDEDED); }
+
+/* a hairline under an error, so it reads as a notice rather than body copy */
+.Short_note.is-bad {
+    padding-left: 13px;
+    border-left: 2px solid var(--muted, #B5B5B5);
+}
+
+/* ------------------------------ focus ----------------------------- */
+.Short_body :focus-visible {
+    outline: 2px solid var(--text, #EDEDED);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* ---------------------------- responsive -------------------------- */
+@media (max-width: 640px) {
+    .Short_layout { grid-template-columns: 1fr; }
+    .Short_frame { max-width: 340px; }
+    .Short_state { margin-left: 0; }
+    .btn_copy { width: 100%; }
+}
+
+/* -------------------------- reduced motion ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .Short_body *,
+    .Short_body *::before,
+    .Short_body *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}
