@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../Styles/short_component.css";
 
-const SHORTEN_ENDPOINT = "http://127.0.0.1:8000/shorten";
+const SHORTEN_ENDPOINT = "/tools/shorten";
 
 type LinkShorternProps = {
     url: string;
@@ -53,7 +53,11 @@ export function LinkShortener({ url }: LinkShorternProps) {
                 if (!payload?.code) throw new Error("the service sent no code back");
 
                 if (cancelled) return;
-                setResult(payload);
+                // the service builds `short` from whatever host it was reached on,
+                // which behind Vercel's service rewrites is an internal address —
+                // rebuild it from the origin the browser is actually on, so the
+                // copied link resolves for whoever receives it
+                setResult({ ...payload, short: `${window.location.origin}/${payload.code}` });
             } catch (err) {
                 if (cancelled) return;
 

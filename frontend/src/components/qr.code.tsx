@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "../Styles/qr_component.css";
 
-const QR_ENDPOINT = "http://127.0.0.1:8000/generate-qr";
+const QR_ENDPOINT = "/tools/generate-qr";
 
 type QrCodeProps = {
     url: string;

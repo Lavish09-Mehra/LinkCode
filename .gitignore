@@ -131,3 +131,13 @@ $RECYCLE.BIN/
 .gating-check.mjs
 .scratch/
 *.ssr-check.mjs
+
+
+# ------------------------------------------------------------
+#  Deployment
+# ------------------------------------------------------------
+# `vercel link` writes .vercel/project.json — it names your team,
+# project and id, so it stays local. vercel.json itself is tracked:
+# it is the deployment config the repo needs to ship.
+.vercel/
+.vercelignore

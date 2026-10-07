@@ -197,8 +197,8 @@ graph TD
 │       ├── pages/
 │       │   ├── Home.tsx          landing page
 │       │   ├── app.tsx           tool shell — state lives here
-│       │   ├── login.tsx         → :5000/login
-│       │   └── signup.tsx        → :5000/signup
+│       │   ├── login.tsx         → /api/login
+│       │   └── signup.tsx        → /api/signup
 │       ├── components/
 │       │   ├── image.downloader.tsx
 │       │   ├── custom.link.tsx
@@ -219,8 +219,8 @@ graph TD
     ├── .env                      MONGO_URL, JWT_SECRET   (git-ignored)
     ├── package.json
     ├── Routers/
-    │   ├── signup.js             POST /signup
-    │   └── login.js              POST /login
+    │   ├── signup.js             POST /api/signup
+    │   └── login.js              POST /api/login
     ├── Database/
     │   └── usersSchema.js        Mongoose model → UserDetail
     │
@@ -343,8 +343,8 @@ Defined in `src/App.tsx`:
 |---|---|---|
 | `/` | `HomePage` | Landing page |
 | `/app` | `LinkCodeApp` | **The four tools** |
-| `/login` | `LoginUserInfo` | Sign in → `:5000/login` |
-| `/signup` | `SignUpPage` | Create account → `:5000/signup` |
+| `/login` | `LoginUserInfo` | Sign in → `/api/login` |
+| `/signup` | `SignUpPage` | Create account → `/api/signup` |
 
 Each route is wrapped in `.route-wrapper`, keyed on `location.pathname`, so route
 transitions re-mount cleanly.
@@ -355,7 +355,10 @@ transitions re-mount cleanly.
 
 ### Auth API — `http://localhost:5000`
 
-#### `POST /signup`
+Both routes carry the **`/api/`** prefix, because `vercel.json` routes `/api/(.*)`
+to this service and a service receives the *original* path.
+
+#### `POST /api/signup`
 
 ```json
 { "name": "Ada", "email": "ada@x.dev", "dob": "1990-12-10", "password": "…" }
@@ -370,7 +373,7 @@ transitions re-mount cleanly.
 Passwords are hashed with **bcrypt, 12 rounds**. A JWT (`1h` expiry) is signed; the
 password is stripped from the payload before responding.
 
-#### `POST /login`
+#### `POST /api/login`
 
 ```json
 { "email": "ada@x.dev", "password": "…" }
@@ -389,12 +392,16 @@ password is stripped from the payload before responding.
 
 Interactive docs at [`/docs`](http://127.0.0.1:8000/docs).
 
-#### `GET /download-image?url={image_url}`
+The three tool routes live under **`/tools/`**, because `vercel.json` routes
+`/tools/(.*)` to this service and a service receives the *original* path.
+Short codes are the exception: they stay at the root.
+
+#### `GET /tools/download-image?url={image_url}`
 
 Streams the image back as an attachment.
 
 ```bash
-curl -L -o pic.jpg "http://127.0.0.1:8000/download-image?url=https://example.com/pic.jpg"
+curl -L -o pic.jpg "http://127.0.0.1:8000/tools/download-image?url=https://example.com/pic.jpg"
 ```
 
 | Header | Value |
@@ -404,17 +411,17 @@ curl -L -o pic.jpg "http://127.0.0.1:8000/download-image?url=https://example.com
 
 ---
 
-#### `GET /generate-qr?url={anything}`
+#### `GET /tools/generate-qr?url={anything}`
 
 Returns `image/png`. Decodes back to the exact input.
 
 ```bash
-curl "http://127.0.0.1:8000/generate-qr?url=https://example.com" -o qr.png
+curl "http://127.0.0.1:8000/tools/generate-qr?url=https://example.com" -o qr.png
 ```
 
 ---
 
-#### `GET /shorten?url={long_url}`
+#### `GET /tools/shorten?url={long_url}`
 
 ```json
 {
@@ -448,8 +455,11 @@ curl -IL http://127.0.0.1:8000/1846822360
 | `307` | Known code — redirect, `hits` incremented |
 | `404` | Not 10 digits, or unknown code |
 
-The `short` value is derived from `request.base_url`, so it resolves the moment the
-server starts — **no hardcoded domain to get wrong.**
+The service builds `short` from `request.base_url`, which behind Vercel's rewrites is
+an **internal** address — so `link.shortern.tsx` rebuilds it from
+`window.location.origin` before displaying or copying it. The link therefore resolves
+on localhost, on a preview URL and on your production domain, with none of them
+hardcoded.
 
 ---
 

@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 export const SignupRoute = express.Router();
 
-SignupRoute.post('/signup', async (req, res) => {
+SignupRoute.post('/api/signup', async (req, res) => {
     try {
         // const userData = req.body;
         const { name, email, dob, password } = req.body

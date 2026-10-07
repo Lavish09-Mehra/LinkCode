@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse, Response
@@ -22,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/download-image")
+@app.get("/tools/download-image")
 async def download_image(url: str):
 
     async with httpx.AsyncClient() as client:
@@ -40,7 +41,7 @@ async def download_image(url: str):
 # Error correction level M recovers 15% of damaged modules — the usual
 # choice for URLs. The chip in qr.code.tsx says "Error correction M";
 # change one, change the other.
-@app.get("/generate-qr")
+@app.get("/tools/generate-qr")
 async def generate_qr(url: str):
 
     qr = qrcode.QRCode(
@@ -82,8 +83,12 @@ CODE_LENGTH = 10
 CODE_ALPHABET = "0123456789"
 
 # lives next to server.py, survives a restart — a short link that stops
-# working when the server bounces is the one thing a shortener must not do
-DB_PATH = Path(__file__).with_name("links.db")
+# working when the server bounces is the one thing a shortener must not do.
+# Deployed on Vercel the bundle is read-only, so the store moves to /tmp,
+# which is the one writable location a function has.
+DB_PATH = (
+    Path("/tmp/links.db") if os.environ.get("VERCEL") else Path(__file__).with_name("links.db")
+)
 
 
 def _connect() -> sqlite3.Connection:
@@ -105,7 +110,7 @@ def _new_code() -> str:
     return "".join(secrets.choice(CODE_ALPHABET) for _ in range(CODE_LENGTH))
 
 
-@app.get("/shorten")
+@app.get("/tools/shorten")
 async def shorten(url: str, request: Request):
 
     original = url.strip()

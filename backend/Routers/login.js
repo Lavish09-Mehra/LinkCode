@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { UserDetail } from '../Database/usersSchema.js';
 export const LoginRouter = (express.Router());
 
-LoginRouter.post('/login', async(req, res) => {
+LoginRouter.post('/api/login', async(req, res) => {
     try {
         const LoginData = req.body
 

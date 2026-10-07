@@ -24,7 +24,7 @@ export function LoginUserInfo() {
         if (login.email.trim() === "" || login.password.trim() === "") return;
 
         try {
-            const response = await fetch('http://localhost:5000/login', {
+            const response = await fetch('/api/login', {
                 method: "POST",
                 headers: {
                     "Content-type": "application/JSON"

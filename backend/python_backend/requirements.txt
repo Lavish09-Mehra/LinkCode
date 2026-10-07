@@ -1,0 +1,9 @@
+# Pin exactly what the local venv runs, so the service behaves the same
+# deployed as it does on this machine (Python 3.13).
+fastapi==0.142.2
+starlette==1.7.0
+uvicorn==0.54.0
+httpx==0.28.1
+qrcode==8.2
+pillow==12.3.0
+pydantic==2.13.5

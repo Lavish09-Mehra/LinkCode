@@ -31,7 +31,7 @@ export function SignUpPage() {
         //Link to backend
         try{
 
-            const response = await fetch('http://localhost:5000/signup', {
+            const response = await fetch('/api/signup', {
                 method: "POST",
                 headers: {
                     "Content-type": "application/JSON"

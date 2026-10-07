@@ -4,23 +4,22 @@ import mongoose from 'mongoose';
 import cors from 'cors'
 import 'dotenv/config.js'
 import express from 'express';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
+// Connect without owning a port: on Vercel the platform invokes the exported
+// app, and listening on a fixed port there would fail.
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
-        console.log("Database connected")
-        app.listen(5000, () => {
-            console.log("listening at http://localhost:5000");
-        })
+        console.log("Database connected");
     })
     .catch((err) => {
-        console.error(err)
-    }
-);
+        console.error(err);
+    });
 
 
 export const verifyToken = (req, res, next) => {
@@ -46,9 +45,16 @@ export const verifyToken = (req, res, next) => {
 }
 
 
+// mounted under /api because vercel.json routes /api/(.*) to this service and
+// the service receives the original path (/api/login, not /login)
 app.use(LoginRouter);
 app.use(SignupRoute);
 
-app.listen(5000, () => {
-    console.log("listening at http://localhost:5000");
-});
+// Vercel sets VERCEL=1 — there we export the handler instead of binding a port
+if (!process.env.VERCEL) {
+    app.listen(5000, () => {
+        console.log("listening at http://localhost:5000");
+    });
+}
+
+export default app;

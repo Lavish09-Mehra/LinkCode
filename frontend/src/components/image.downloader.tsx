@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../Styles/image_componenet.css";
 
-const DOWNLOAD_ENDPOINT = "http://127.0.0.1:8000/download-image";
+const DOWNLOAD_ENDPOINT = "/tools/download-image";
 
 type ImageDownloaderProps = {
     url: string;
